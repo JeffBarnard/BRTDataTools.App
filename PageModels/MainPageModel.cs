@@ -35,6 +35,13 @@ namespace BRTDataTools.App.PageModels
         [ObservableProperty]
         private string _today = DateTime.Now.ToString("dddd, MMM d");
 
+        [ObservableProperty]
+        private int _minChart1;
+        [ObservableProperty]
+        private int _maxChart1;
+        [ObservableProperty]
+        private double _avgChart1;
+
         public bool HasCompletedTasks
             => Tasks?.Any(t => t.IsCompleted) ?? false;
 
@@ -60,20 +67,45 @@ namespace BRTDataTools.App.PageModels
                 var chartColors = new List<Brush>();
 
                 var categories = await _categoryRepository.ListAsync();
-                foreach (var category in categories)
+                //foreach (var category in categories)
+                //{
+                //    chartColors.Add(category.ColorBrush);
+
+                //    var ps = Projects.Where(p => p.CategoryID == category.ID).ToList();
+                //    int tasksCount = ps.SelectMany(p => p.Tasks).Count();
+
+                //chartData.Add(new(category.Title, tasksCount));
+                //}
+
+                // Use HttpClient to get a comma delimited list of numbers from a web service
+                HttpClient httpClient = new();
+                httpClient.BaseAddress = new Uri("http://192.168.4.1");
+                var response = await httpClient.GetAsync("/");
+                // parse the content of the response
+                var stream = await response.Content.ReadAsStringAsync();
+                
+                HashSet<int> plots = new();
+                foreach (var plot in stream.Split(','))
                 {
-                    chartColors.Add(category.ColorBrush);
-
-                    var ps = Projects.Where(p => p.CategoryID == category.ID).ToList();
-                    int tasksCount = ps.SelectMany(p => p.Tasks).Count();
-
-                    chartData.Add(new(category.Title, tasksCount));
+                    if (int.TryParse(plot, out int value))
+                    {
+                        plots.Add(value);
+                        chartData.Add(new(DateTime.UtcNow.ToString(), value));
+                    }
                 }
+                
+                MinChart1 = chartData.Select(x => x.YValue).Min();
+                MaxChart1 = chartData.Select(x => x.YValue).Max();
+                AvgChart1 = chartData.Select(x => x.YValue).Average();
 
                 TodoCategoryData = chartData;
                 TodoCategoryColors = chartColors;
 
                 Tasks = await _taskRepository.ListAsync();
+            }
+            catch(Exception ex)
+            {
+
             }
             finally
             {
@@ -135,6 +167,8 @@ namespace BRTDataTools.App.PageModels
             {
                 await Refresh();
             }
+
+           
         }
 
         [RelayCommand]

@@ -21,7 +21,7 @@
                 EventName="Appearing"                
                 Command="{Binding AppearingCommand}" />
     </ContentPage.Behaviors>
-
+    
     <ContentPage.Resources>
         <ResourceDictionary>
             <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
@@ -29,14 +29,27 @@
     </ContentPage.Resources>
 
     <Grid>
-        <pullToRefresh:SfPullToRefresh
-            IsRefreshing="{Binding IsRefreshing}"
-            RefreshCommand="{Binding RefreshCommand}">
+        <pullToRefresh:SfPullToRefresh IsRefreshing="{Binding IsRefreshing}" RefreshCommand="{Binding RefreshCommand}">
             <pullToRefresh:SfPullToRefresh.PullableContent>
                 <ScrollView>
                     <VerticalStackLayout Spacing="{StaticResource LayoutSpacing}" Padding="{StaticResource LayoutPadding}">
-                        <controls:CategoryChart />
-                        <Label Text="Projects" Style="{StaticResource Title2}"/>
+                        <Image Source="mosport.svg" HeightRequest="250"/>
+                        <controls:CategoryChart Margin="-16,0,-32,0" />
+                        <HorizontalStackLayout Spacing="64" HorizontalOptions="Center">
+                            <VerticalStackLayout>
+                                <Label Text="Min" />
+                                <Label Text="{Binding MinChart1}" FontSize="32" />
+                            </VerticalStackLayout>
+                            <VerticalStackLayout>
+                                <Label Text="Max" />
+                                <Label Text="{Binding MaxChart1}" FontSize="32" />
+                            </VerticalStackLayout>
+                            <VerticalStackLayout>
+                                <Label Text="Avg" />
+                                <Label Text="{Binding AvgChart1}" FontSize="32" />
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+                        <!--<Label Text="Projects" Style="{StaticResource Title2}"/>
                         <ScrollView Orientation="Horizontal" Margin="-30,0">
                             <HorizontalStackLayout 
                                 Spacing="15" Padding="30,0"
@@ -51,8 +64,8 @@
                                     </DataTemplate>
                                 </BindableLayout.ItemTemplate>
                             </HorizontalStackLayout>
-                        </ScrollView>
-                        <Grid HeightRequest="44">
+                        </ScrollView>-->
+                        <!--<Grid HeightRequest="44">
                             <Label Text="Tasks" Style="{StaticResource Title2}" VerticalOptions="Center"/>
                             <ImageButton 
                                 Source="{StaticResource IconClean}"
@@ -72,14 +85,14 @@
                                     <controls:TaskView TaskCompletedCommand="{Binding TaskCompletedCommand, Source={RelativeSource AncestorType={x:Type pageModels:MainPageModel}}, x:DataType=pageModels:MainPageModel}" />
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>
-                        </VerticalStackLayout>
+                        </VerticalStackLayout>-->
                     </VerticalStackLayout>
                 </ScrollView>
             </pullToRefresh:SfPullToRefresh.PullableContent>
         </pullToRefresh:SfPullToRefresh>
 
-        <controls:AddButton 
+        <!--<controls:AddButton 
             IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
-            Command="{Binding AddTaskCommand}" />
+            Command="{Binding AddTaskCommand}" />-->
     </Grid>
 </ContentPage>

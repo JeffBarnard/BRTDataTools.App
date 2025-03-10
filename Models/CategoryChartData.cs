@@ -2,13 +2,13 @@ namespace BRTDataTools.App.Models
 {
     public class CategoryChartData
     {
-        public string Title { get; set; } = string.Empty;
-        public int Count { get; set; }
+        public string XValue { get; set; } = string.Empty;
+        public int YValue { get; set; }
 
         public CategoryChartData(string title, int count)
         {
-            Title = title;
-            Count = count;
+            XValue = title;
+            YValue = count;
         }
     }
 }
