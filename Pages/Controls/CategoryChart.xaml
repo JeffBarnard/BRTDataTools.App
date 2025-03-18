@@ -42,6 +42,10 @@
                     <chart:NumericalAxis/>
                 </chart:SfCartesianChart.YAxes>
 
+                <chart:SfCartesianChart.ZoomPanBehavior>
+                    <chart:ChartZoomPanBehavior EnablePanning="True" ZoomMode="X"/>
+                </chart:SfCartesianChart.ZoomPanBehavior>
+
                 <chart:SplineSeries ItemsSource="{Binding TodoCategoryData}"
                                     XBindingPath="XValue" YBindingPath="YValue"
                                     ShowMarkers="False" />

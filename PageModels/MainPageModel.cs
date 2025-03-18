@@ -1,6 +1,7 @@
 using BRTDataTools.App.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microcharts;
 
 namespace BRTDataTools.App.PageModels
 {
@@ -13,6 +14,8 @@ namespace BRTDataTools.App.PageModels
         private readonly CategoryRepository _categoryRepository;
         private readonly ModalErrorHandler _errorHandler;
         private readonly SeedDataService _seedDataService;
+
+        public LineChart Chart { get; set; }
 
         [ObservableProperty]
         private List<CategoryChartData> _todoCategoryData = [];
@@ -40,7 +43,7 @@ namespace BRTDataTools.App.PageModels
         [ObservableProperty]
         private int _maxChart1;
         [ObservableProperty]
-        private double _avgChart1;
+        private int _avgChart1;
 
         public bool HasCompletedTasks
             => Tasks?.Any(t => t.IsCompleted) ?? false;
@@ -64,6 +67,7 @@ namespace BRTDataTools.App.PageModels
                 Projects = await _projectRepository.ListAsync();
 
                 var chartData = new List<CategoryChartData>();
+                var microChartData = new List<ChartEntry>();
                 var chartColors = new List<Brush>();
 
                 var categories = await _categoryRepository.ListAsync();
@@ -91,15 +95,22 @@ namespace BRTDataTools.App.PageModels
                     {
                         plots.Add(value);
                         chartData.Add(new(DateTime.UtcNow.ToString(), value));
+                        microChartData.Add(new ChartEntry(value)
+                        {
+                            Label = DateTime.UtcNow.ToString(),
+                            ValueLabel = value.ToString(),
+                        });
                     }
                 }
                 
                 MinChart1 = chartData.Select(x => x.YValue).Min();
                 MaxChart1 = chartData.Select(x => x.YValue).Max();
-                AvgChart1 = chartData.Select(x => x.YValue).Average();
+                AvgChart1 = (int)chartData.Select(x => x.YValue).Average();
 
                 TodoCategoryData = chartData;
                 TodoCategoryColors = chartColors;
+
+                Chart = new LineChart() { Entries = microChartData };                
 
                 Tasks = await _taskRepository.ListAsync();
             }

@@ -6,7 +6,7 @@
     xmlns:sf="clr-namespace:Syncfusion.Maui.Toolkit.SegmentedControl;assembly=Syncfusion.Maui.Toolkit"
     xmlns:pages="clr-namespace:BRTDataTools.App.Pages"
     Shell.FlyoutBehavior="Flyout"
-    Title="BRTDataTools.App">
+    Title="🟥🍁🟥 Team BRT">
 
     <ShellContent
         Title="Dashboard"

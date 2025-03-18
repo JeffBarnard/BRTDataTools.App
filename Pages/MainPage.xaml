@@ -6,9 +6,10 @@
              xmlns:controls="clr-namespace:BRTDataTools.App.Pages.Controls"
              xmlns:pullToRefresh="clr-namespace:Syncfusion.Maui.Toolkit.PullToRefresh;assembly=Syncfusion.Maui.Toolkit"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
              x:Class="BRTDataTools.App.Pages.MainPage"
              x:DataType="pageModels:MainPageModel"
-             Title="{Binding Today}">
+             Title="Data Analysis">
 
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior
@@ -18,7 +19,7 @@
                 EventName="NavigatedFrom"
                 Command="{Binding NavigatedFromCommand}" />
         <toolkit:EventToCommandBehavior
-                EventName="Appearing"                
+                EventName="Appearing"
                 Command="{Binding AppearingCommand}" />
     </ContentPage.Behaviors>
     
@@ -33,8 +34,13 @@
             <pullToRefresh:SfPullToRefresh.PullableContent>
                 <ScrollView>
                     <VerticalStackLayout Spacing="{StaticResource LayoutSpacing}" Padding="{StaticResource LayoutPadding}">
+                        
+                        <Label Text="Track - Mosport" />
                         <Image Source="mosport.svg" HeightRequest="250"/>
+                       
+                        <Label Text="Front Suspension (mm)" />
                         <controls:CategoryChart Margin="-16,0,-32,0" />
+                        <!--<microcharts:ChartView x:Name="chartView" Chart="{Binding Chart}" />-->
                         <HorizontalStackLayout Spacing="64" HorizontalOptions="Center">
                             <VerticalStackLayout>
                                 <Label Text="Min" />
@@ -45,10 +51,11 @@
                                 <Label Text="{Binding MaxChart1}" FontSize="32" />
                             </VerticalStackLayout>
                             <VerticalStackLayout>
-                                <Label Text="Avg" />
+                                <Label Text="Lap Avg" />
                                 <Label Text="{Binding AvgChart1}" FontSize="32" />
                             </VerticalStackLayout>
                         </HorizontalStackLayout>
+                        
                         <!--<Label Text="Projects" Style="{StaticResource Title2}"/>
                         <ScrollView Orientation="Horizontal" Margin="-30,0">
                             <HorizontalStackLayout 
